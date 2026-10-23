@@ -12,8 +12,6 @@ export default function App() {
   const [current, setCurrent] = useState<string | null>(null);
   const ex = EXERCISES.find((e) => e.id === current);
 
-  const x: number = "oops";
-
   if (ex) {
     return (
       <div>
