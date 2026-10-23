@@ -1,8 +1,8 @@
 
 import { useState } from "react";
-import type { Request } from "../api";
+import type { MaterialRequest } from "../api";
 
-const INITIAL: Request[] = [
+const INITIAL: MaterialRequest[] = [
     { id: "R1", part: "CELL-100", qty:600, status: "open" },
     { id: "R2", part: "MAG-300", qty:2, status: "delivered" },
     { id: "R3", part: "TIR-800", qty:4, status: "open" },
@@ -10,34 +10,73 @@ const INITIAL: Request[] = [
 
 export default function Ex1RequestBoard() {
 
-    const [requests, setRequests] = useState<Request[]>(INITIAL);
+    const [requests, setRequests] = useState<MaterialRequest[]>(INITIAL);
     const [filter, setFilter] = useState("");
 
-    const openCount = requests.filter((r) => r.status === "open").length;
-    const shown = requests.filter((r) => 
-        r.part.toLowerCase().includes(filter.toLowerCase())
-    );
+    let openCount = 0;
+    for (const r of requests) {
+        if (r.status === "open") {
+            openCount += 1;
+        }
+    }
+
+    const shown: MaterialRequest[] = [];
+    const filter_text = filter.toLowerCase();
+    for (const r of requests) {
+        const part = r.part.toLowerCase();
+        if (part.includes(filter_text)) {
+            shown.push(r);
+        }
+    }
 
     function markDelivered(id: string) {
-        setRequests((prev) => 
-            prev.map((r) => (r.id === id) ? { ...r, status: "delivered" as const } : r)
+        setRequests(function(prev) {
+            const next: MaterialRequest[] = [];
+            for (const r of prev) {
+                if (r.id === id) {
+                    const updated_r: MaterialRequest = {
+                        id: r.id,
+                        part: r.part,
+                        qty: r.qty,
+                        status: "delivered",
+                    };
+                    next.push(updated_r)
+                } else {
+                    next.push(r);
+                }
+            }
+            return next;
+        });
+    }
+
+    function handleFilterChange(e: React.ChangeEvent<HTMLInputElement>) {
+        setFilter(e.target.value);
+    }
+
+    const rows = [];
+    for (const r of shown) {
+        let button = null;
+        if (r.status === "open") {
+            button = (
+                <button onClick={function () { 
+                    markDelivered(r.id); 
+                }}>
+                    Mark delivered
+                </button>
+            );
+        }
+        rows.push(
+            <li key={r.id}>
+                {r.part} x {r.qty} - {r.status} {button}
+            </li>
         );
     }
 
     return (
         <div>
             <p>Open: {openCount}</p>
-            <input value={filter} onChange={(e) => setFilter(e.target.value)} placeholder="Filter by part" />
-            <ul>
-                {shown.map((r) => (
-                    <li key={r.id}>
-                        {r.part} x {r.qty} - {r.status}{" "}
-                        {r.status === "open" && (
-                            <button onClick={() => markDelivered(r.id)}>Mark delivered</button>
-                        )}
-                    </li>
-                ))}
-            </ul>
+            <input value={filter} onChange={handleFilterChange} placeholder="Filter by part" />
+            <ul>{rows}</ul>
         </div>
     );
 
