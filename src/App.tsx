@@ -3,11 +3,13 @@ import { useState } from "react";
 import Ex1RequestBoard from "./exercises/Ex1RequestBoard";
 import Ex2Fetch from "./exercises/Ex2Fetch";
 import Ex3AddForm from "./exercises/Ex3AddForm";
+import Ex4CRUDTable from "./exercises/Ex4CRUDTable";
 
 const EXERCISES = [
   { id: "ex1", title: "1. Request board (state, filter)", comp: Ex1RequestBoard },
   { id: "ex2", title: "2. Fetch with loading & error", comp: Ex2Fetch },
   { id: "ex3", title: "3. Form", comp: Ex3AddForm },
+  { id: "ex4", title: "4. CRUD Table", comp: Ex4CRUDTable },
 ];
 
 export default function App() {
