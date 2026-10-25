@@ -5,6 +5,8 @@ import Ex2Fetch from "./exercises/Ex2Fetch";
 import Ex3AddForm from "./exercises/Ex3AddForm";
 import Ex4CRUDTable from "./exercises/Ex4CRUDTable";
 import Ex5Components from "./exercises/Ex5Components";
+import Ex6UseMemo from "./exercises/Ex6UseMemo";
+import Ex7AutoRefresh from "./exercises/Ex7AutoRefresh";
 
 const EXERCISES = [
   { id: "ex1", title: "1. Request board (state, filter)", comp: Ex1RequestBoard },
@@ -12,6 +14,8 @@ const EXERCISES = [
   { id: "ex3", title: "3. Form", comp: Ex3AddForm },
   { id: "ex4", title: "4. CRUD Table", comp: Ex4CRUDTable },
   { id: "ex5", title: "5. Components", comp: Ex5Components },
+  { id: "ex6", title: "6. UseMemo", comp: Ex6UseMemo },
+  { id: "ex7", title: "7. AutoRefresh", comp: Ex7AutoRefresh },
 ];
 
 export default function App() {
